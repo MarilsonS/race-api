@@ -29,4 +29,14 @@ public class RaceService {
                 )
         );
     }
+
+    public Race create(Race race) {   //create race
+        return raceRepository.save(race);
+    }
+
+    public Race update(Long id, Race race) { //update race
+        getById(id);
+        race.setId(id);
+        return raceRepository.save(race);
+    }
 }
