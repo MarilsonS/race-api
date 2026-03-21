@@ -9,5 +9,5 @@ import com.takima.race.runner.entities.Runner;
 
 @Repository
 public interface RunnerRepository extends JpaRepository<Runner, Long> {
-    List<Runner> findByFirstName(String firstName);
+    List<Runner> findByFirstName(String firstName);  //not necessary for now
 }
