@@ -45,4 +45,10 @@ public class RunnerService {
         }
         runnerRepository.deleteById(id);
     }
+
+    public Runner update(Long id, Runner runner) {
+        getById(id);
+        runner.setId(id);
+        return runnerRepository.save(runner);
+    }
 }
