@@ -18,6 +18,12 @@ public class RunnerService {
         this.runnerRepository = runnerRepository;
     }
 
+    private void validateEmail(String email) { //adding this because I forgot earlier
+        if (email == null || !email.contains("@")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email address");
+        }
+    }
+
     public List<Runner> getAll() { //get all runners
         return runnerRepository.findAll();
     }
@@ -32,6 +38,7 @@ public class RunnerService {
     }
 
     public Runner create(Runner runner) {   //create runner
+        validateEmail(runner.getEmail());
         return runnerRepository.save(runner);
     }
 
@@ -48,7 +55,9 @@ public class RunnerService {
 
     public Runner update(Long id, Runner runner) {  //update runner
         getById(id);
+        validateEmail(runner.getEmail());
         runner.setId(id);
         return runnerRepository.save(runner);
     }
+
 }
