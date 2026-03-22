@@ -17,7 +17,15 @@ public class RaceService {
         this.raceRepository = raceRepository;
     }
 
-    public List<Race> getAll() { //get all races
+    public List<Race> getAll(String location) { //get all races   + bonus
+        if (location != null) {
+            List<Race> races = raceRepository.findByLocation(location);
+            if (races.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        String.format("No races found in '%s'", location));
+            }
+            return races;
+        }
         return raceRepository.findAll();
     }
     
