@@ -53,4 +53,9 @@ public class RegistrationService {
         runnerService.getById(runnerId);
         return registrationRepository.findByRunnerId(runnerId);
     }
+
+    public long countParticipants(Long raceId) {  // count participants (mapped in racecontroller)
+        raceService.getById(raceId);
+        return registrationRepository.countByRaceId(raceId);
+    }
 }

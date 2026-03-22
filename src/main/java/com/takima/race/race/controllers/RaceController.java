@@ -12,14 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.takima.race.race.entities.Race;
 import com.takima.race.race.services.RaceService;
-
+import com.takima.race.registration.services.RegistrationService;
 @RestController
 @RequestMapping("/races")
 public class RaceController {
     private final RaceService raceService;
+    private final RegistrationService registrationService;
 
-    public RaceController(RaceService raceService) {
+    public record ParticipantCount(long count) {}
+
+    public RaceController(RaceService raceService, RegistrationService registrationService) {
         this.raceService = raceService;
+        this.registrationService = registrationService;
     }
 
     @GetMapping
@@ -41,4 +45,10 @@ public class RaceController {
     public Race update(@PathVariable Long id, @RequestBody Race race) {
         return raceService.update(id, race);
     }
+
+    @GetMapping("/{raceId}/participants/count")
+    public ParticipantCount countParticipants(@PathVariable Long raceId) {
+        return new ParticipantCount(registrationService.countParticipants(raceId));
+    }
+
 }
