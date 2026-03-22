@@ -1,6 +1,9 @@
 package com.takima.race.registration.controllers;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +17,8 @@ import com.takima.race.registration.services.RegistrationService;
 public class RegistrationController {
     private final RegistrationService registrationService;
 
+    public record RegistrationRequest(Long runnerId) {}
+
     public RegistrationController(RegistrationService registrationService) {
         this.registrationService = registrationService;
     }
@@ -24,5 +29,8 @@ public class RegistrationController {
         return registrationService.register(raceId, request.runnerId());
     }
 
-    record RegistrationRequest(Long runnerId) {}
+    @GetMapping("/races/{raceId}/registrations")
+    public List<Registration> getByRace(@PathVariable Long raceId) {
+        return registrationService.getParticipants(raceId);
+    }
 }

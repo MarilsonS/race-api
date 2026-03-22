@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.takima.race.registration.entities.Registration;
+import com.takima.race.registration.services.RegistrationService;
 import com.takima.race.runner.entities.Runner;
 import com.takima.race.runner.services.RunnerService;
 
@@ -18,9 +20,11 @@ import com.takima.race.runner.services.RunnerService;
 @RequestMapping("/runners")
 public class RunnerController {
     private final RunnerService runnerService;
+    private final RegistrationService registrationService;  //included in construtor
 
-    public RunnerController(RunnerService runnerService) {
+    public RunnerController(RunnerService runnerService, RegistrationService registrationService) {
         this.runnerService = runnerService;
+        this.registrationService = registrationService;
     }
 
     @GetMapping
@@ -46,5 +50,10 @@ public class RunnerController {
     @PutMapping("/{id}")
     public Runner update(@PathVariable Long id, @RequestBody Runner runner) {
         return runnerService.update(id, runner);
+    }
+
+    @GetMapping("/{id}/races")
+    public List<Registration> getRacesByRunner(@PathVariable Long id) {
+        return registrationService.getRacesByRunner(id);
     }
 }

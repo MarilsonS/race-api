@@ -1,6 +1,7 @@
 package com.takima.race.registration.services;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -41,5 +42,15 @@ public class RegistrationService {
         registration.setRaceId(raceId);
         registration.setRegistrationDate(LocalDate.now());
         return registrationRepository.save(registration);
+    }
+
+    public List<Registration> getParticipants(Long raceId) {    //get race participants
+        raceService.getById(raceId);
+        return registrationRepository.findByRaceId(raceId);
+    }
+
+    public List<Registration> getRacesByRunner(Long runnerId) {    //races of a runner (mapped in runnercontroller)
+        runnerService.getById(runnerId);
+        return registrationRepository.findByRunnerId(runnerId);
     }
 }
